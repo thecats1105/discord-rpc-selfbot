@@ -4,10 +4,10 @@
 
 A Discord Selfbot for Custom Rich Presence
 
-> [!WARNING]
+> [!WARNING]  
 > **I don't take any responsibility for blocked Discord accounts that used this module.**
 
-> [!CAUTION]
+> [!CAUTION]  
 > **Using this on a user account is prohibited by the [Discord TOS](https://discord.com/terms) and can lead to the account block.**
 
 ## How to Use
