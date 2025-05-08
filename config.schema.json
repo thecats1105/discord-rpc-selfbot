@@ -57,7 +57,7 @@
     },
     "timezone": {
       "type": ["string", "null"],
-      "description": "The timezone of the activity."
+      "description": "The timezone of the local time. based on the IANA Time Zone Database."
     },
     "startTimeStamp": {
       "type": ["integer", "null"],
@@ -109,7 +109,8 @@
     },
     "refreshInterval": {
       "type": ["integer", "null"],
-      "description": "The refresh interval in milliseconds."
+      "description": "The RPC refresh interval in milliseconds."
     }
-  }
+  },
+  "required": ["APPLICATION_ID"]
 }
