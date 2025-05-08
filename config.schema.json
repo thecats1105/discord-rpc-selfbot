@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/thecats1105/discord-rpc-selfbot/refs/heads/main/config.schema.json",
+  "title": "Discord RPC Selfbot",
+  "description": "A selfbot for Discord that allows you to set a custom rich presence status.",
+  "type": "object",
+  "properties": {
+    "APPLICATION_ID": {
+      "type": "string",
+      "description": "The application ID of the Discord application."
+    },
+    "type": {
+      "type": ["string", "null"],
+      "enum": ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"],
+      "description": "The type of activity."
+    },
+    "name": {
+      "type": ["string", "null"],
+      "description": "The name of the activity."
+    },
+    "details": {
+      "type": ["string", "null"],
+      "description": "The details of the activity."
+    },
+    "state": {
+      "type": ["string", "null"],
+      "description": "The state of the activity."
+    },
+    "streamURL": {
+      "type": ["string", "null"],
+      "description": "The URL of the stream."
+    },
+    "party": {
+      "type": ["object", "null"],
+      "description": "The party information.",
+      "properties": {
+        "size": {
+          "type": ["object", "null"],
+          "description": "The size of the party.",
+          "properties": {
+            "current": {
+              "type": ["integer", "null"],
+              "description": "The current size of the party."
+            },
+            "max": {
+              "type": ["integer", "null"],
+              "description": "The maximum size of the party."
+            }
+          },
+          "required": ["current", "max"]
+        }
+      }
+    },
+    "setLocalTime": {
+      "type": ["boolean", "null"],
+      "description": "Whether to set the local time."
+    },
+    "timezone": {
+      "type": ["string", "null"],
+      "description": "The timezone of the activity."
+    },
+    "startTimeStamp": {
+      "type": ["integer", "null"],
+      "description": "The start time of the activity in Unix timestamp."
+    },
+    "endTimeStamp": {
+      "type": ["integer", "null"],
+      "description": "The end time of the activity in Unix timestamp."
+    },
+    "assets": {
+      "type": ["object", "null"],
+      "description": "The assets of the activity.",
+      "properties": {
+        "large_image": {
+          "type": ["string", "null"],
+          "description": "The large image of the activity."
+        },
+        "large_text": {
+          "type": ["string", "null"],
+          "description": "The large text of the activity."
+        },
+        "small_image": {
+          "type": ["string", "null"],
+          "description": "The small image of the activity."
+        },
+        "small_text": {
+          "type": ["string", "null"],
+          "description": "The small text of the activity."
+        }
+      }
+    },
+    "buttons": {
+      "type": ["array", "null"],
+      "description": "The buttons of the activity.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": ["string", "null"],
+            "description": "The label of the button."
+          },
+          "url": {
+            "type": ["string", "null"],
+            "description": "The URL of the button."
+          }
+        },
+        "required": ["label", "url"]
+      }
+    },
+    "refreshInterval": {
+      "type": ["integer", "null"],
+      "description": "The refresh interval in milliseconds."
+    }
+  }
+}

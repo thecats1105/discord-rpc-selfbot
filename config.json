@@ -1,10 +1,21 @@
 {
+  "$schema": "https://raw.githubusercontent.com/thecats1105/discord-rpc-selfbot/refs/heads/main/config.schema.json",
   "APPLICATION_ID": "<APPLICATION_ID>",
   "type": "<ACTIVITY_TYPE>",
   "name": "<ACTIVITY_NAME>",
   "details": "<ACTIVITY_DETAILS>",
-  "startTimeStamp": "<START_TIMESTAMP>",
-  "endTimeStamp": "<END_TIMESTAMP>",
+  "state": "<ACTIVITY_STATE>",
+  "streamURL": "<STREAM_URL>",
+  "party": {
+    "size": {
+      "current": null,
+      "max": null
+    }
+  },
+  "setLocalTime": null,
+  "timezone": "<TIMEZONE>",
+  "startTimeStamp": null,
+  "endTimeStamp": null,
   "assets": {
     "large_image": "<LARGE_IMAGE>",
     "large_text": "<LARGE_TEXT>",
@@ -20,5 +31,6 @@
       "label": "<BUTTON_LABEL>",
       "url": "<BUTTON_URL>"
     }
-  ]
+  ],
+  "refreshInterval": null
 }
