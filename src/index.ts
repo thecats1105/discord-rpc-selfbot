@@ -71,9 +71,9 @@ client.on('ready', () => {
 })
 
 setInterval(() => {
-  const RPC = new Discord.RichPresence(client)
-    .setApplicationId(config.APPLICATION_ID)
-    .setParty({ max: 10, current: 1 })
+  const RPC = new Discord.RichPresence(client).setApplicationId(
+    config.APPLICATION_ID
+  )
   if (config.type) {
     RPC.setType(config.type)
     if (config.type === 'STREAMING' && config.streamURL) {
