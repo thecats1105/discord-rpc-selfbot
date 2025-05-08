@@ -1,0 +1,24 @@
+{
+  "APPLICATION_ID": "<APPLICATION_ID>",
+  "type": "<ACTIVITY_TYPE>",
+  "name": "<ACTIVITY_NAME>",
+  "details": "<ACTIVITY_DETAILS>",
+  "startTimeStamp": "<START_TIMESTAMP>",
+  "endTimeStamp": "<END_TIMESTAMP>",
+  "assets": {
+    "large_image": "<LARGE_IMAGE>",
+    "large_text": "<LARGE_TEXT>",
+    "small_image": "<SMALL_IMAGE>",
+    "small_text": "<SMALL_TEXT>"
+  },
+  "buttons": [
+    {
+      "label": "<BUTTON_LABEL>",
+      "url": "<BUTTON_URL>"
+    },
+    {
+      "label": "<BUTTON_LABEL>",
+      "url": "<BUTTON_URL>"
+    }
+  ]
+}
