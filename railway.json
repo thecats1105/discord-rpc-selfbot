@@ -6,7 +6,7 @@
       "providers": ["node"],
       "phase": {
         "setup": {
-          "nixPkgs": ["nodejs_22"]
+          "nixPkgs": ["nodejs"]
         },
         "install": {
           "dependsOn": ["setup"],
