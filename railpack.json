@@ -3,11 +3,22 @@
   "provider": "node",
   "steps": {
     "install": {
-      "commands": ["npm install"]
+      "commands": [
+        { "src": "package.json", "dest": "package.json" },
+        { "src": "package-lock.json", "dest": "package-lock.json" },
+
+        { "cmd": "npm install", "customName": "Install dependencies" }
+      ]
     },
     "build": {
       "inputs": [{ "step": "install" }],
-      "commands": ["npm run build"]
+      "commands": ["...", { "cmd": "npm run build", "customName": "Build" }],
+      "deployOutputs": [
+        {
+          "include": ["dist"],
+          "exclude": ["node_modules", "src"]
+        }
+      ]
     }
   },
   "deploy": {
