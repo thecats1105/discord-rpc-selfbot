@@ -1,6 +1,5 @@
 import 'dotenv/config'
 import axios from 'axios'
-import { Client } from 'discord.js-selfbot-v13'
 import Discord from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
@@ -64,7 +63,7 @@ function getAMInTimezone(timezone: string): number {
   return AM.valueOf()
 }
 
-const client = new Client()
+const client = new Discord.Client()
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user?.username}`)
