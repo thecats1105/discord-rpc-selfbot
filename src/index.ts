@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import axios from 'axios'
-import Discord from 'discord.js-selfbot-v13'
+import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
@@ -63,16 +63,14 @@ function getAMInTimezone(timezone: string): number {
   return AM.valueOf()
 }
 
-const client = new Discord.Client()
+const client = new Client()
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user?.username}`)
 })
 
 setInterval(() => {
-  const RPC = new Discord.RichPresence(client).setApplicationId(
-    config.APPLICATION_ID
-  )
+  const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
   if (config.type) {
     RPC.setType(config.type)
     if (config.type === 'STREAMING' && config.streamURL) {
