@@ -57,7 +57,12 @@ if (!CONFIG_URL) {
   }
 }
 
-function getAMInTimezone(timezone: string): number {
+/**
+ * Get the start of the day in the specified timezone
+ * @param {string} timezone The timezone to get the start of the day for
+ * @return {number} The start of the day in milliseconds since the Unix epoch
+ */
+function getStartOfDayInTimezone(timezone: string): number {
   const now = dayjs().tz(timezone)
   const AM = now.startOf('day')
   return AM.valueOf()
@@ -65,17 +70,69 @@ function getAMInTimezone(timezone: string): number {
 
 const client = new Client({
   sweepers: {
+    /*
+     * i dont know how to use this
+     * anybody wanna help me?
+     */
+    // applicationCommands: {
+    //   filter: () => () => true,
+    //   interval: config.refreshInterval || 15
+    // },
+    autoModerationRules: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    bans: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    emojis: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
     invites: {
       lifetime: 10,
-      interval: 10
+      interval: config.refreshInterval || 15
+    },
+    guildMembers: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
     },
     messages: {
       lifetime: 10,
-      interval: 10
+      interval: config.refreshInterval || 15
+    },
+    presences: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    reactions: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    stageInstances: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    stickers: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    threadMembers: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
     },
     threads: {
       lifetime: 10,
-      interval: 10
+      interval: config.refreshInterval || 15
+    },
+    users: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
+    },
+    voiceStates: {
+      filter: () => () => true,
+      interval: config.refreshInterval || 15
     }
   }
 })
@@ -108,7 +165,7 @@ setInterval(() => {
     })
   }
   if (config.setLocalTime && config.timezone) {
-    RPC.setStartTimestamp(getAMInTimezone(config.timezone))
+    RPC.setStartTimestamp(getStartOfDayInTimezone(config.timezone))
   }
   if (config.startTimestamp) {
     RPC.setStartTimestamp(config.startTimestamp)
