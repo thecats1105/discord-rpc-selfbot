@@ -63,7 +63,22 @@ function getAMInTimezone(timezone: string): number {
   return AM.valueOf()
 }
 
-const client = new Client()
+const client = new Client({
+  sweepers: {
+    invites: {
+      lifetime: 10,
+      interval: 10
+    },
+    messages: {
+      lifetime: 10,
+      interval: 10
+    },
+    threads: {
+      lifetime: 10,
+      interval: 10
+    }
+  }
+})
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user?.username}`)
