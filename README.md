@@ -14,42 +14,35 @@ A Discord Selfbot for Custom Rich Presence
 
 1. Fill out your [`config.json`](https://github.com/thecats1105/discord-rpc-selfbot/blob/main/config.json)
 
-```json
+```ts
 {
-  "$schema": "https://raw.githubusercontent.com/thecats1105/discord-rpc-selfbot/refs/heads/main/config.schema.json",
-  "APPLICATION_ID": "<APPLICATION_ID>",
-  "type": "<ACTIVITY_TYPE>",
-  "name": "<ACTIVITY_NAME>",
-  "details": "<ACTIVITY_DETAILS>",
-  "state": "<ACTIVITY_STATE>",
-  "streamURL": "<STREAM_URL>",
-  "party": {
-    "size": {
-      "current": null,
-      "max": null
+  APPLICATION_ID: string
+  type?: 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' | 'COMPETING'
+  name?: string
+  details?: string
+  state?: string
+  streamURL?: string
+  party?: {
+    size: {
+      current: number
+      max: number
     }
-  },
-  "setLocalTime": null,
-  "timezone": "<TIMEZONE>",
-  "startTimeStamp": null,
-  "endTimeStamp": null,
-  "assets": {
-    "large_image": "<LARGE_IMAGE>",
-    "large_text": "<LARGE_TEXT>",
-    "small_image": "<SMALL_IMAGE>",
-    "small_text": "<SMALL_TEXT>"
-  },
-  "buttons": [
-    {
-      "label": "<BUTTON_LABEL>",
-      "url": "<BUTTON_URL>"
-    },
-    {
-      "label": "<BUTTON_LABEL>",
-      "url": "<BUTTON_URL>"
-    }
-  ],
-  "refreshInterval": null
+  }
+  setLocalTime?: boolean
+  timezone?: string
+  startTimestamp?: number
+  endTimestamp?: number
+  assets?: {
+    large_image?: string
+    large_text?: string
+    small_image?: string
+    small_text?: string
+  }
+  buttons?: {
+    label: string
+    url: string
+  }[]
+  refreshInterval?: number
 }
 ```
 
@@ -100,7 +93,6 @@ e.g. Setting to the current time in the `Asia/Seoul` Timezone:
 - `cdn.discordapp.com` URL
 - `media.discordapp.net` URL
 - Assets ID
-  - See [here](https://discordjs-self-v13.netlify.app/#/docs/docs/main/typedef/RichPresenceImage) for more information.
   - You can get the ID of each Asset by running this command:
   ```bash
   curl https://discord.com/api/v9/oauth2/applications/<APPLICATION_ID>/assets
@@ -109,3 +101,5 @@ e.g. Setting to the current time in the `Asia/Seoul` Timezone:
 - Twitch (`twitch:<username>`)
 - YouTube (`youtube:<video_id>`)
 - Spotify (`spotify:<image_id>`)
+
+(See [here](https://discordjs-self-v13.netlify.app/#/docs/docs/main/typedef/RichPresenceImage) for more information.)
