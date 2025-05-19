@@ -143,55 +143,35 @@ client.on('ready', () => {
 
 setInterval(() => {
   const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
-  if (config.type) {
-    RPC.setType(config.type)
-    if (config.type === 'STREAMING' && config.streamURL) {
-      RPC.setURL(config.streamURL)
-    }
-  }
-  if (config.name) {
-    RPC.setName(config.name)
-  }
-  if (config.details) {
-    RPC.setDetails(config.details)
-  }
-  if (config.state) {
-    RPC.setState(config.state)
-  }
-  if (config.party) {
+  if (config.type) RPC.setType(config.type)
+  if (config.type === 'STREAMING' && config.streamURL)
+    RPC.setURL(config.streamURL)
+  if (config.name) RPC.setName(config.name)
+  if (config.details) RPC.setDetails(config.details)
+  if (config.state) RPC.setState(config.state)
+  if (config.party)
     RPC.setParty({
       max: config.party.size.max,
       current: config.party.size.current
     })
-  }
-  if (config.setLocalTime && config.timezone) {
+  if (config.setLocalTime && config.timezone)
     RPC.setStartTimestamp(getStartOfDayInTimezone(config.timezone))
-  }
-  if (config.startTimestamp) {
-    RPC.setStartTimestamp(config.startTimestamp)
-  }
-  if (config.endTimestamp) {
-    RPC.setEndTimestamp(config.endTimestamp)
-  }
+  if (config.startTimestamp) RPC.setStartTimestamp(config.startTimestamp)
+  if (config.endTimestamp) RPC.setEndTimestamp(config.endTimestamp)
   if (config.assets) {
-    if (config.assets.large_image) {
+    if (config.assets.large_image)
       RPC.setAssetsLargeImage(config.assets.large_image)
-    }
-    if (config.assets.large_text) {
+    if (config.assets.large_text)
       RPC.setAssetsLargeText(config.assets.large_text)
-    }
-    if (config.assets.small_image) {
+    if (config.assets.small_image)
       RPC.setAssetsSmallImage(config.assets.small_image)
-    }
-    if (config.assets.small_text) {
+    if (config.assets.small_text)
       RPC.setAssetsSmallText(config.assets.small_text)
-    }
   }
-  if (config.buttons) {
+  if (config.buttons)
     config.buttons.forEach(button => {
       RPC.addButton(button.label, button.url)
     })
-  }
 
   client.user?.setActivity(RPC)
 }, config.refreshInterval || 15000)
