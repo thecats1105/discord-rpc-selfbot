@@ -1,4 +1,5 @@
-import { get, createServer } from 'https'
+import { createServer } from 'http2'
+import { get } from 'https'
 
 export const healthCheck = createServer((_, res) => {
   res.writeHead(200, { 'Content-Type': 'text/plain' })
