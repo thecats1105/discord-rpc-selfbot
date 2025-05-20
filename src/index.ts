@@ -4,6 +4,7 @@ import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
+import { healthCheck } from './healthCheck.js'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -177,6 +178,7 @@ setInterval(() => {
 }, config.refreshInterval || 15000)
 
 try {
+  healthCheck.listen(8080)
   await client.login(TOKEN)
 } catch (error) {
   console.error('Error logging in:', error)
