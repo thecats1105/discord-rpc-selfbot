@@ -4,12 +4,12 @@ import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
-import { healthCheck } from './healthCheck.js'
+import { healthCheck, selfPing } from './koyebCompact.js'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const { CONFIG_URL, TOKEN } = process.env
+const { CONFIG_URL, TOKEN, KOYEB_SERVICE_NAME } = process.env
 
 interface Config {
   APPLICATION_ID: string
@@ -144,6 +144,8 @@ client.on('ready', () => {
 
 setInterval(() => {
   const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
+
+  // Set the rich presence properties
   if (config.type) RPC.setType(config.type)
   if (config.type === 'STREAMING' && config.streamURL)
     RPC.setURL(config.streamURL)
@@ -174,11 +176,15 @@ setInterval(() => {
       RPC.addButton(button.label, button.url)
     })
 
+  // Update the rich presence
   client.user?.setActivity(RPC)
+
+  // Koyeb Self-ping
+  if (KOYEB_SERVICE_NAME) selfPing(`https://${KOYEB_SERVICE_NAME}.koyeb.app`)
 }, config.refreshInterval || 15000)
 
 try {
-  healthCheck.listen(8080)
+  if (KOYEB_SERVICE_NAME) healthCheck.listen(8080)
   await client.login(TOKEN)
 } catch (error) {
   console.error('Error logging in:', error)
