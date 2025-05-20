@@ -1,5 +1,6 @@
 # Discord RPC Selfbot
 
+[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?name=discord-rpc-selfbot&type=git&repository=github.com/thecats1105/discord-rpc-selfbot&branch=main&build_command=npm+run+build&run_command=npm+start&instance_type=free&regions=was&instances_min=0&autoscaling_sleep_idle_delay=300&env%5BCONFIG_URL%5D=https%3A%2F%2Fgist.githubusercontent.com%2Fthecats1105%2F73a024b05976b79cfa9246995faefd6f%2Fraw%2F6cfdcfffe7cbfe6b8e65f9be3a9e40d356a65118%2Fdiscord_rpc_config.json&env%5BTOKEN%5D=%7B%7B+secret.DISCORD_TOKEN+%7D%7D&ports=8080%3Bhttp2%3B%2F&hc_protocol%5B8080%5D=tcp&hc_grace_period%5B8080%5D=5&hc_interval%5B8080%5D=30&hc_restart_limit%5B8080%5D=3&hc_timeout%5B8080%5D=5&hc_path%5B8080%5D=%2F&hc_method%5B8080%5D=get)
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/jsZQh-?referralCode=DY_B7C)
 
 A Discord Selfbot for Custom Rich Presence
