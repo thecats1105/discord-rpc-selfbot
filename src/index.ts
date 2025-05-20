@@ -185,8 +185,6 @@ setInterval(() => {
 
 try {
   if (KOYEB_SERVICE_NAME) healthCheck.listen(8080)
-  // debugging for koyeb compact
-  console.log(KOYEB_SERVICE_NAME)
   await client.login(TOKEN)
 } catch (error) {
   console.error('Error logging in:', error)
