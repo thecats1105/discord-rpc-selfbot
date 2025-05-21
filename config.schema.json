@@ -10,40 +10,40 @@
       "description": "The application ID of the Discord application."
     },
     "type": {
-      "type": ["string", "null"],
+      "type": "string",
       "enum": ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"],
       "description": "The type of activity."
     },
     "name": {
-      "type": ["string", "null"],
+      "type": "string",
       "description": "The name of the activity."
     },
     "details": {
-      "type": ["string", "null"],
+      "type": "string",
       "description": "The details of the activity."
     },
     "state": {
-      "type": ["string", "null"],
+      "type": "string",
       "description": "The state of the activity."
     },
     "streamURL": {
-      "type": ["string", "null"],
+      "type": "string",
       "description": "The URL of the stream."
     },
     "party": {
-      "type": ["object", "null"],
+      "type": "object",
       "description": "The party information.",
       "properties": {
         "size": {
-          "type": ["object", "null"],
+          "type": "object",
           "description": "The size of the party.",
           "properties": {
             "current": {
-              "type": ["integer", "null"],
+              "type": "integer",
               "description": "The current size of the party."
             },
             "max": {
-              "type": ["integer", "null"],
+              "type": "integer",
               "description": "The maximum size of the party."
             }
           },
@@ -52,55 +52,55 @@
       }
     },
     "setLocalTime": {
-      "type": ["boolean", "null"],
+      "type": "boolean",
       "description": "Whether to set the local time."
     },
     "timezone": {
-      "type": ["string", "null"],
+      "type": "string",
       "description": "The timezone of the local time. based on the IANA Time Zone Database."
     },
     "startTimeStamp": {
-      "type": ["integer", "null"],
+      "type": "integer",
       "description": "The start time of the activity in Unix timestamp."
     },
     "endTimeStamp": {
-      "type": ["integer", "null"],
+      "type": "integer",
       "description": "The end time of the activity in Unix timestamp."
     },
     "assets": {
-      "type": ["object", "null"],
+      "type": "object",
       "description": "The assets of the activity.",
       "properties": {
         "large_image": {
-          "type": ["string", "null"],
+          "type": "string",
           "description": "The large image of the activity."
         },
         "large_text": {
-          "type": ["string", "null"],
+          "type": "string",
           "description": "The large text of the activity."
         },
         "small_image": {
-          "type": ["string", "null"],
+          "type": "string",
           "description": "The small image of the activity."
         },
         "small_text": {
-          "type": ["string", "null"],
+          "type": "string",
           "description": "The small text of the activity."
         }
       }
     },
     "buttons": {
-      "type": ["array", "null"],
+      "type": "array",
       "description": "The buttons of the activity.",
       "items": {
         "type": "object",
         "properties": {
           "label": {
-            "type": ["string", "null"],
+            "type": "string",
             "description": "The label of the button."
           },
           "url": {
-            "type": ["string", "null"],
+            "type": "string",
             "description": "The URL of the button."
           }
         },
