@@ -9,7 +9,7 @@ import { healthCheck, selfPing } from './koyebCompact.js'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const { CONFIG_URL, TOKEN, KOYEB_SERVICE_NAME } = process.env
+const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN } = process.env
 
 interface Config {
   APPLICATION_ID: string
@@ -180,11 +180,14 @@ setInterval(() => {
   client.user?.setActivity(RPC)
 
   // Koyeb Self-ping
-  if (KOYEB_SERVICE_NAME) selfPing(`https://${KOYEB_SERVICE_NAME}.koyeb.app`)
+  if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
 }, config.refreshInterval || 15000)
 
 try {
-  if (KOYEB_SERVICE_NAME) healthCheck.listen(8080)
+  if (KOYEB_PUBLIC_DOMAIN) healthCheck.listen(8080)
+  console.log(
+    `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
+  )
   await client.login(TOKEN)
 } catch (error) {
   console.error('Error logging in:', error)
