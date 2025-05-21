@@ -108,7 +108,7 @@
       }
     },
     "refreshInterval": {
-      "type": ["integer", "null"],
+      "type": "integer",
       "description": "The RPC refresh interval in milliseconds."
     }
   },
