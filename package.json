@@ -2,9 +2,15 @@
   "name": "discord-rpc-selfbot",
   "version": "0.0.1",
   "description": "A selfbot for Discord Custom RPC Hosting",
+  "author": "Taejun Park (https://github.com/thecats1105)",
+  "private": true,
   "main": "dist/index.js",
   "license": "MIT",
   "type": "module",
+  "homepage": "https://github.com/thecats1105/discord-rpc-selfbot",
+  "bugs": {
+    "url": "https://github.com/thecats1105/discord-rpc-selfbot/issues"
+  },
   "scripts": {
     "lint": "eslint --cache --fix",
     "clean": "rimraf dist",
@@ -36,6 +42,10 @@
     "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=22"
+    "node": "22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thecats1105/discord-rpc-selfbot.git"
   }
 }
