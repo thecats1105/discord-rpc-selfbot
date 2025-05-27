@@ -1,4 +1,4 @@
-import { createServer } from 'http2'
+import { createServer } from 'http'
 import { get } from 'https'
 
 export const healthCheck = createServer((_, res) => {

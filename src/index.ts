@@ -184,7 +184,7 @@ setInterval(() => {
 }, config.refreshInterval || 15000)
 
 try {
-  if (KOYEB_PUBLIC_DOMAIN) healthCheck.listen(8080)
+  if (KOYEB_PUBLIC_DOMAIN) healthCheck.listen(8000)
   console.log(
     `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
   )
