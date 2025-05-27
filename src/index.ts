@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import '@dotenvx/dotenvx/config'
 import axios from 'axios'
 import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
