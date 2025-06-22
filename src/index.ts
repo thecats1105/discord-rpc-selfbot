@@ -5,41 +5,12 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
 import { healthCheck, selfPing } from './koyebCompact.js'
+import type { Config } from './types/config'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN } = process.env
-
-interface Config {
-  APPLICATION_ID: string
-  type?: 'PLAYING' | 'STREAMING' | 'LISTENING' | 'WATCHING' | 'COMPETING'
-  name?: string
-  details?: string
-  state?: string
-  streamURL?: string
-  party?: {
-    size: {
-      current: number
-      max: number
-    }
-  }
-  setLocalTime?: boolean
-  timezone?: string
-  startTimestamp?: number
-  endTimestamp?: number
-  assets?: {
-    large_image?: string
-    large_text?: string
-    small_image?: string
-    small_text?: string
-  }
-  buttons?: {
-    label: string
-    url: string
-  }[]
-  refreshInterval?: number
-}
 
 let config: Config
 
@@ -184,10 +155,12 @@ setInterval(() => {
 }, config.refreshInterval || 15000)
 
 try {
-  if (KOYEB_PUBLIC_DOMAIN) healthCheck.listen(8000)
-  console.log(
-    `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
-  )
+  if (KOYEB_PUBLIC_DOMAIN) {
+    healthCheck.listen(8000)
+    console.log(
+      `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
+    )
+  }
   await client.login(TOKEN)
 } catch (error) {
   console.error('Error logging in:', error)
