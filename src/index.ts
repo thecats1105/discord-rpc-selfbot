@@ -143,10 +143,12 @@ setInterval(() => {
       RPC.setAssetsSmallText(config.assets.small_text)
   }
   if (config.buttons)
-    config.buttons.forEach(button => {
-      RPC.addButton(button.label, button.url)
-    })
-
+    RPC.setButtons(
+      ...config.buttons.map(button => ({
+        name: button.label,
+        url: button.url
+      }))
+    )
   // Update the rich presence
   client.user?.setActivity(RPC)
 
