@@ -29,17 +29,6 @@ if (!CONFIG_URL) {
   }
 }
 
-/**
- * Get the start of the day in the specified timezone
- * @param {string} timezone The timezone to get the start of the day for
- * @return {number} The start of the day in milliseconds since the Unix epoch
- */
-function getStartOfDayInTimezone(timezone: string): number {
-  const now = dayjs().tz(timezone)
-  const AM = now.startOf('day')
-  return AM.valueOf()
-}
-
 const client = new Client({
   sweepers: {
     /*
@@ -113,42 +102,10 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user?.username}`)
 })
 
-setInterval(() => {
-  const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
+const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
 
-  // Set the rich presence properties
-  if (config.type) RPC.setType(config.type)
-  if (config.type === 'STREAMING' && config.streamURL)
-    RPC.setURL(config.streamURL)
-  if (config.name) RPC.setName(config.name)
-  if (config.details) RPC.setDetails(config.details)
-  if (config.state) RPC.setState(config.state)
-  if (config.party)
-    RPC.setParty({
-      max: config.party.size.max,
-      current: config.party.size.current
-    })
-  if (config.setLocalTime && config.timezone)
-    RPC.setStartTimestamp(getStartOfDayInTimezone(config.timezone))
-  if (config.startTimestamp) RPC.setStartTimestamp(config.startTimestamp)
-  if (config.endTimestamp) RPC.setEndTimestamp(config.endTimestamp)
-  if (config.assets) {
-    if (config.assets.large_image)
-      RPC.setAssetsLargeImage(config.assets.large_image)
-    if (config.assets.large_text)
-      RPC.setAssetsLargeText(config.assets.large_text)
-    if (config.assets.small_image)
-      RPC.setAssetsSmallImage(config.assets.small_image)
-    if (config.assets.small_text)
-      RPC.setAssetsSmallText(config.assets.small_text)
-  }
-  if (config.buttons)
-    RPC.setButtons(
-      ...config.buttons.map(button => ({
-        name: button.label,
-        url: button.url
-      }))
-    )
+setInterval(() => {
+  updateRPC(RPC, config)
   // Update the rich presence
   client.user?.setActivity(RPC)
 
@@ -167,4 +124,72 @@ try {
 } catch (error) {
   console.error('Error logging in:', error)
   throw new Error('Failed to log in')
+}
+
+/**
+ * Get the start of the day in the specified timezone
+ * @param {string} timezone The timezone to get the start of the day for
+ * @return {number} The start of the day in milliseconds since the Unix epoch
+ */
+function getStartOfDayInTimezone(timezone: string): number {
+  const now = dayjs().tz(timezone)
+  const AM = now.startOf('day')
+  return AM.valueOf()
+}
+
+/**
+ * Updates the Rich Presence object based on the provided configuration.
+ * @param rpc The Rich Presence object to update.
+ * @param config The configuration to apply.
+ */
+function updateRPC(rpc: RichPresence, config: Config) {
+  if (config.name) rpc.setName(config.name)
+  if (config.details) rpc.setDetails(config.details)
+  if (config.state) rpc.setState(config.state)
+  if (config.party) {
+    rpc.setParty({
+      max: config.party.size.max,
+      current: config.party.size.current
+    })
+  }
+
+  // Activity Type
+  if (config.type) {
+    rpc.setType(config.type)
+    if (config.type === 'STREAMING' && config.streamURL) {
+      rpc.setURL(config.streamURL)
+    }
+  }
+
+  // Timestamps
+  if (config.setLocalTime && config.timezone) {
+    rpc.setStartTimestamp(getStartOfDayInTimezone(config.timezone))
+  } else if (config.startTimestamp) {
+    rpc.setStartTimestamp(config.startTimestamp)
+  }
+  if (config.endTimestamp) {
+    rpc.setEndTimestamp(config.endTimestamp)
+  }
+
+  // Assets
+  if (config.assets) {
+    if (config.assets.large_image)
+      rpc.setAssetsLargeImage(config.assets.large_image)
+    if (config.assets.large_text)
+      rpc.setAssetsLargeText(config.assets.large_text)
+    if (config.assets.small_image)
+      rpc.setAssetsSmallImage(config.assets.small_image)
+    if (config.assets.small_text)
+      rpc.setAssetsSmallText(config.assets.small_text)
+  }
+
+  // Buttons
+  if (config.buttons) {
+    rpc.setButtons(
+      ...config.buttons.map(button => ({
+        name: button.label,
+        url: button.url
+      }))
+    )
+  }
 }
