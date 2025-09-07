@@ -12,22 +12,12 @@ dayjs.extend(timezone)
 
 const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN } = process.env
 
-let config: Config
-
 if (!CONFIG_URL) {
   console.error('CONFIG_URL is not defined in .env')
   throw new Error('CONFIG_URL is required')
-} else {
-  try {
-    const response = await axios.get<Config>(CONFIG_URL)
-    console.log(response.data)
-    config = response.data
-    console.log('Config loaded successfully')
-  } catch (error) {
-    console.error('Error loading config:', error)
-    throw new Error('Failed to load config')
-  }
 }
+
+let config = await loadConfig(CONFIG_URL)
 
 const client = new Client({
   sweepers: {
@@ -105,12 +95,17 @@ client.on('ready', () => {
 const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
 
 setInterval(() => {
-  updateRPC(RPC, config)
-  // Update the rich presence
-  client.user?.setActivity(RPC)
+  void (async () => {
+    // Reload the config
+    config = await loadConfig(CONFIG_URL)
 
-  // Koyeb Self-ping
-  if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
+    // Update the rich presence
+    updateRPC(RPC, config)
+    client.user?.setActivity(RPC)
+
+    // Koyeb Self-ping
+    if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
+  })()
 }, config.refreshInterval || 15000)
 
 try {
@@ -135,6 +130,23 @@ function getStartOfDayInTimezone(timezone: string): number {
   const now = dayjs().tz(timezone)
   const AM = now.startOf('day')
   return AM.valueOf()
+}
+
+/**
+ * Loads the configuration from the specified URL.
+ * @param url URL of the configuration file
+ * @returns A promise that resolves to the configuration object
+ */
+async function loadConfig(url: string): Promise<Config> {
+  try {
+    const response = await axios.get<Config>(url)
+    console.log(response.data)
+    console.log('Config loaded successfully')
+    return response.data
+  } catch (error) {
+    console.error('Error loading config:', error)
+    throw new Error('Failed to load config')
+  }
 }
 
 /**
