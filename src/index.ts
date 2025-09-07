@@ -140,8 +140,6 @@ function getStartOfDayInTimezone(timezone: string): number {
 async function loadConfig(url: string): Promise<Config> {
   try {
     const response = await axios.get<Config>(url)
-    console.log(response.data)
-    console.log('Config loaded successfully')
     return response.data
   } catch (error) {
     console.error('Error loading config:', error)
