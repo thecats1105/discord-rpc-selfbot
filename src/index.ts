@@ -4,13 +4,15 @@ import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
+import * as z from 'zod'
 import { healthCheck, selfPing } from './koyebCompact.js'
 import type { Config } from './types/config'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN } = process.env
+const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN, KOYEB_HEALTH_CHECK } =
+  process.env
 
 if (!CONFIG_URL) {
   console.error('CONFIG_URL is not defined in .env')
@@ -110,10 +112,17 @@ setInterval(() => {
 
 try {
   if (KOYEB_PUBLIC_DOMAIN) {
-    healthCheck.listen(8000)
-    console.log(
-      `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
-    )
+    if (KOYEB_HEALTH_CHECK === undefined) {
+      healthCheck.listen(8000)
+      console.log(
+        `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
+      )
+    } else if (z.stringbool().parse(KOYEB_HEALTH_CHECK)) {
+      healthCheck.listen(8000)
+      console.log(
+        `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
+      )
+    }
   }
   await client.login(TOKEN)
 } catch (error) {
