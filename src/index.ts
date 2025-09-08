@@ -100,14 +100,14 @@ setInterval(() => {
   void (async () => {
     // Reload the config
     config = await loadConfig(CONFIG_URL)
-
-    // Update the rich presence
-    updateRPC(RPC, config)
-    client.user?.setActivity(RPC)
-
-    // Koyeb Self-ping
-    if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
   })()
+
+  // Update the rich presence
+  updateRPC(RPC, config)
+  client.user?.setActivity(RPC)
+
+  // Koyeb Self-ping
+  if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
 }, config.refreshInterval || 15000)
 
 try {
