@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import axios from 'axios'
 import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
@@ -148,8 +147,8 @@ function getStartOfDayInTimezone(timezone: string): number {
  */
 async function loadConfig(url: string): Promise<Config> {
   try {
-    const response = await axios.get<Config>(url)
-    return response.data
+    const response = await fetch(url)
+    return (await response.json()) as Config
   } catch (error) {
     console.error('Error loading config:', error)
     throw new Error('Failed to load config')
