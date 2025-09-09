@@ -1,33 +1,30 @@
 import 'dotenv/config'
-import axios from 'axios'
 import { Client, RichPresence } from 'discord.js-selfbot-v13'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc.js'
 import timezone from 'dayjs/plugin/timezone.js'
+import * as z from 'zod'
 import { healthCheck, selfPing } from './koyebCompact.js'
 import type { Config } from './types/config'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN } = process.env
-
-let config: Config
+const { CONFIG_URL, TOKEN, KOYEB_PUBLIC_DOMAIN, KOYEB_HEALTH_CHECK } =
+  process.env
 
 if (!CONFIG_URL) {
   console.error('CONFIG_URL is not defined in .env')
   throw new Error('CONFIG_URL is required')
-} else {
-  try {
-    const response = await axios.get<Config>(CONFIG_URL)
-    console.log(response.data)
-    config = response.data
-    console.log('Config loaded successfully')
-  } catch (error) {
-    console.error('Error loading config:', error)
-    throw new Error('Failed to load config')
-  }
 }
+
+const KOYEB_HEALTH_CHECK_ENABLED: boolean | undefined =
+  KOYEB_PUBLIC_DOMAIN &&
+  (KOYEB_HEALTH_CHECK === undefined || z.stringbool().parse(KOYEB_HEALTH_CHECK))
+    ? true
+    : false
+
+let config = await loadConfig(CONFIG_URL)
 
 const client = new Client({
   sweepers: {
@@ -105,16 +102,21 @@ client.on('ready', () => {
 const RPC = new RichPresence(client).setApplicationId(config.APPLICATION_ID)
 
 setInterval(() => {
-  updateRPC(RPC, config)
-  // Update the rich presence
-  client.user?.setActivity(RPC)
+  void (async () => {
+    // Reload the config
+    config = await loadConfig(CONFIG_URL)
 
-  // Koyeb Self-ping
-  if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
+    // Update the rich presence
+    updateRPC(RPC, config)
+    client.user?.setActivity(RPC)
+
+    // Koyeb Self-ping
+    if (KOYEB_HEALTH_CHECK_ENABLED) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
+  })()
 }, config.refreshInterval || 15000)
 
 try {
-  if (KOYEB_PUBLIC_DOMAIN) {
+  if (KOYEB_HEALTH_CHECK_ENABLED) {
     healthCheck.listen(8000)
     console.log(
       `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
@@ -135,6 +137,21 @@ function getStartOfDayInTimezone(timezone: string): number {
   const now = dayjs().tz(timezone)
   const AM = now.startOf('day')
   return AM.valueOf()
+}
+
+/**
+ * Loads the configuration from the specified URL.
+ * @param url URL of the configuration file
+ * @returns A promise that resolves to the configuration object
+ */
+async function loadConfig(url: string): Promise<Config> {
+  try {
+    const response = await fetch(url)
+    return (await response.json()) as Config
+  } catch (error) {
+    console.error('Error loading config:', error)
+    throw new Error('Failed to load config')
+  }
 }
 
 /**
