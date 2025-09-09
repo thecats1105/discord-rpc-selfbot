@@ -18,6 +18,12 @@ if (!CONFIG_URL) {
   throw new Error('CONFIG_URL is required')
 }
 
+const KOYEB_HEALTH_CHECK_ENABLED: boolean | undefined =
+  KOYEB_PUBLIC_DOMAIN &&
+  (KOYEB_HEALTH_CHECK === undefined || z.stringbool().parse(KOYEB_HEALTH_CHECK))
+    ? true
+    : false
+
 let config = await loadConfig(CONFIG_URL)
 
 const client = new Client({
@@ -99,29 +105,22 @@ setInterval(() => {
   void (async () => {
     // Reload the config
     config = await loadConfig(CONFIG_URL)
+
+    // Update the rich presence
+    updateRPC(RPC, config)
+    client.user?.setActivity(RPC)
+
+    // Koyeb Self-ping
+    if (KOYEB_HEALTH_CHECK_ENABLED) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
   })()
-
-  // Update the rich presence
-  updateRPC(RPC, config)
-  client.user?.setActivity(RPC)
-
-  // Koyeb Self-ping
-  if (KOYEB_PUBLIC_DOMAIN) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
 }, config.refreshInterval || 15000)
 
 try {
-  if (KOYEB_PUBLIC_DOMAIN) {
-    if (KOYEB_HEALTH_CHECK === undefined) {
-      healthCheck.listen(8000)
-      console.log(
-        `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
-      )
-    } else if (z.stringbool().parse(KOYEB_HEALTH_CHECK)) {
-      healthCheck.listen(8000)
-      console.log(
-        `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
-      )
-    }
+  if (KOYEB_HEALTH_CHECK_ENABLED) {
+    healthCheck.listen(8000)
+    console.log(
+      `Health check server for Koyeb running at https://${KOYEB_PUBLIC_DOMAIN}`
+    )
   }
   await client.login(TOKEN)
 } catch (error) {
