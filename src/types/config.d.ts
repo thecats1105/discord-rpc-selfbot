@@ -38,7 +38,7 @@ const Config = z.object({
     )
     .max(2)
     .optional(),
-  refreshInterval: z.number().min(15000).max(240000).optional() // Minimum 15000 ms (15 seconds) Maximum 240000 ms (290 seconds)
+  refreshInterval: z.number().min(15000).optional() // Minimum 15000 ms (15 seconds)
 })
 
 export type Config = z.infer<typeof Config>
