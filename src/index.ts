@@ -18,7 +18,7 @@ if (!CONFIG_URL) {
   throw new Error('CONFIG_URL is required')
 }
 
-const KOYEB_HEALTH_CHECK_ENABLED: boolean | undefined =
+const KOYEB_HEALTH_CHECK_ENABLED: boolean =
   KOYEB_PUBLIC_DOMAIN &&
   (KOYEB_HEALTH_CHECK === undefined || z.stringbool().parse(KOYEB_HEALTH_CHECK))
     ? true
@@ -34,63 +34,63 @@ const client = new Client({
      */
     // applicationCommands: {
     //   filter: () => () => true,
-    //   interval: (config.refreshInterval || 15000 ) / 1000
+    //   interval: 60
     // },
     autoModerationRules: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     bans: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     emojis: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     invites: {
       lifetime: 10,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     guildMembers: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     messages: {
       lifetime: 10,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     presences: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     reactions: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     stageInstances: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     stickers: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     threadMembers: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     threads: {
       lifetime: 10,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     users: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     },
     voiceStates: {
       filter: () => () => true,
-      interval: (config.refreshInterval || 15000) / 1000
+      interval: 60
     }
   }
 })
@@ -109,11 +109,14 @@ setInterval(() => {
     // Update the rich presence
     updateRPC(RPC, config)
     client.user?.setActivity(RPC)
-
-    // Koyeb Self-ping
-    if (KOYEB_HEALTH_CHECK_ENABLED) selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
   })()
 }, config.refreshInterval || 15000)
+
+if (KOYEB_HEALTH_CHECK_ENABLED) {
+  setInterval(() => {
+    selfPing(`https://${KOYEB_PUBLIC_DOMAIN}`)
+  }, 60000)
+}
 
 try {
   if (KOYEB_HEALTH_CHECK_ENABLED) {
