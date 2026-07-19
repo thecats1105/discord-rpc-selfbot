@@ -3,10 +3,15 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "outDir": "dist",
+    "rootDir": "src",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["src/**/*.ts"]
 }
